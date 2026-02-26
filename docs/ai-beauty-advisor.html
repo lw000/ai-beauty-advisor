@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 美妆顾问 - 智能变美助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'PingFang SC', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5edff 0%, #d7f3ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            background: #6a11cb;
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .upload-section, .features {
+            background: #f9f9ff;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        h2 {
+            color: #2575fc;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .upload-box {
+            border: 3px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .upload-box:hover {
+            border-color: #6a11cb;
+            background: #f0f0ff;
+        }
+
+        .upload-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #6a11cb;
+        }
+
+        .btn {
+            background: #6a11cb;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #5219a8;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 15px;
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon {
+            background: #2575fc;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            background: #f0f0ff;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ AI 美妆顾问</h1>
+            <p>基于多模态大模型的智能护肤与彩妆助手</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 左侧：交互区 -->
+            <div class="upload-section">
+                <h2>📸 上传你的照片</h2>
+                <div class="upload-box" onclick="alert('📸 模拟：请在这里上传你的自拍照以进行AI分析')">
+                    <div class="upload-icon">+</div>
+                    <p>点击或拖拽上传面部照片</p>
+                    <p><small>支持 JPG, PNG 格式，建议光线均匀</small></p>
+                </div>
+
+                <button class="btn" onclick="startAnalysis()">🚀 开始智能分析</button>
+
+                <div style="margin-top: 30px; padding: 15px; background: #e3f2fd; border-radius: 10px; display: none;" id="resultBox">
+                    <h3>分析完成！</h3>
+                    <p>已检测到：混合性肌肤，T区偏油，存在轻微毛孔与暗沉。</p>
+                    <button class="btn" style="margin-top: 10px;" onclick="alert('🛍️ 跳转至推荐商品列表')">查看专属方案</button>
+                </div>
+            </div>
+
+            <!-- 右侧：功能介绍 -->
+            <div class="features">
+                <h2>🌟 核心功能</h2>
+                <ul class="feature-list">
+                    <li>
+                        <span class="feature-icon">1</span>
+                        <div>
+                            <strong>高清肤质诊断</strong>
+                            <p>通过手机拍照即可识别肤质类型（干性/油性/敏感肌），精准检测痘痘、黑头、色斑、毛孔及皮肤年龄。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">2</span>
+                        <div>
+                            <strong>虚拟试妆试色</strong>
+                            <p>上传照片或实时摄像头，即可试用口红、眼影、腮红等数千款色号，告别“盲买”踩雷。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">3</span>
+                        <div>
+                            <strong>个性化方案推荐</strong>
+                            <p>AI根据你的五官特征、肤色和风格偏好，定制专属护肤流程与彩妆搭配方案。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">4</span>
+                        <div>
+                            <strong>成分党助手</strong>
+                            <p>扫描产品条形码或输入成分，AI即时解析功效、致敏风险，并推荐“平替”好物。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">5</span>
+                        <div>
+                            <strong>7x24小时顾问</strong>
+                            <p>像与专业美容师对话一样提问，AI实时解答护肤疑问，提供科学建议，不为了成交而乱推荐。</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2026 AI Beauty Advisor. 基于多模态AI技术构建.
+        </footer>
+    </div>
+
+    <script>
+        function startAnalysis() {
+            alert('AI正在分析您的肤质... (模拟过程)');
+            document.getElementById('resultBox').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
