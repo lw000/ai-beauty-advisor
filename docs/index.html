@@ -1,230 +1,429 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 美妆顾问 - 智能变美助手</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'PingFang SC', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aglie · 被看见，才发光</title>
+  <meta name="description" content="Aglie 是你的数字陪伴体，温柔回应每一个情绪瞬间。">
 
-        body {
-            background: linear-gradient(135deg, #f5edff 0%, #d7f3ff 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
-        header {
-            background: #6a11cb;
-            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
+  <style>
+    :root {
+      --purple: #E0B8F5;
+      --cyan: #A8E6FF;
+      --orange: #FFD166;
+      --dark: #2B2D42;
+      --white: #ffffff;
+    }
 
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
+    body {
+      font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+      background-color: var(--dark);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            padding: 30px;
-        }
+    h1, h2, h3 {
+      font-weight: 700;
+    }
 
-        .upload-section, .features {
-            background: #f9f9ff;
-            padding: 25px;
-            border-radius: 15px;
-        }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
 
-        h2 {
-            color: #2575fc;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
+    /* 粒子背景 */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
 
-        .upload-box {
-            border: 3px dashed #ccc;
-            border-radius: 10px;
-            padding: 40px 20px;
-            text-align: center;
-            transition: all 0.3s;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
+    /* 首屏 Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+    }
 
-        .upload-box:hover {
-            border-color: #6a11cb;
-            background: #f0f0ff;
-        }
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--orange), var(--cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-        .upload-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-            color: #6a11cb;
-        }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 40px;
+      opacity: 0.9;
+    }
 
-        .btn {
-            background: #6a11cb;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
+    .btn {
+      display: inline-block;
+      padding: 12px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
 
-        .btn:hover {
-            background: #5219a8;
-        }
+    .btn-primary {
+      background: var(--purple);
+      color: var(--dark);
+      box-shadow: 0 4px 20px rgba(224, 184, 245, 0.4);
+    }
 
-        .feature-list {
-            list-style: none;
-        }
+    .btn-primary:hover {
+      background: var(--orange);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(255, 209, 102, 0.6);
+    }
 
-        .feature-list li {
-            padding: 15px;
-            background: white;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-        }
+    .btn-text {
+      color: var(--cyan);
+      margin-top: 16px;
+      font-weight: 500;
+    }
 
-        .feature-icon {
-            background: #2575fc;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-weight: bold;
-        }
+    .btn-text:hover {
+      color: var(--orange);
+    }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 14px;
-            background: #f0f0ff;
-        }
+    /* 区块通用 */
+    section {
+      padding: 80px 0;
+    }
 
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 50px;
+    }
+
+    /* 关于 Aglie */
+    .about {
+      background: rgba(43, 45, 66, 0.7);
+    }
+
+    .about-content {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .about-text h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    .about-text ul {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .about-text li {
+      margin: 12px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .about-text li::before {
+      content: "✨";
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .about-lottie {
+      flex: 1;
+      min-width: 280px;
+      max-width: 400px;
+    }
+
+    /* 场景区块 */
+    .scenes {
+      text-align: center;
+    }
+
+    .scene-cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .scene-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 30px;
+      width: 280px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .scene-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(168, 230, 255, 0.2);
+      border-color: rgba(168, 230, 255, 0.3);
+    }
+
+    .scene-card h3 {
+      margin: 15px 0;
+      color: var(--cyan);
+    }
+
+    /* 用户声音 */
+    .testimonials {
+      background: rgba(43, 45, 66, 0.7);
+    }
+
+    .quote {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.3rem;
+      font-style: italic;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .quote::before,
+    .quote::after {
+      content: """;
+      font-size: 3rem;
+      opacity: 0.3;
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+    }
+
+    .cta h2 {
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    .email-form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .email-form input {
+      flex: 1;
+      padding: 14px 20px;
+      border-radius: 50px;
+      border: 2px solid var(--purple);
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-size: 1rem;
+    }
+
+    .email-form input:focus {
+      outline: none;
+      border-color: var(--orange);
+    }
+
+    .email-form button {
+      background: var(--purple);
+      color: var(--dark);
+      border: none;
+      padding: 0 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .social-links {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .social-links a {
+      color: var(--cyan);
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .about-content {
+        flex-direction: column;
+      }
+      .email-form {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- 粒子背景占位（简化版，用 CSS 动画模拟） -->
+  <div id="particles-js"></div>
+
+  <!-- Hero -->
+  <section class="hero">
     <div class="container">
-        <header>
-            <h1>✨ AI 美妆顾问</h1>
-            <p>基于多模态大模型的智能护肤与彩妆助手</p>
-        </header>
-
-        <div class="main-content">
-            <!-- 左侧：交互区 -->
-            <div class="upload-section">
-                <h2>📸 上传你的照片</h2>
-                <div class="upload-box" onclick="alert('📸 模拟：请在这里上传你的自拍照以进行AI分析')">
-                    <div class="upload-icon">+</div>
-                    <p>点击或拖拽上传面部照片</p>
-                    <p><small>支持 JPG, PNG 格式，建议光线均匀</small></p>
-                </div>
-
-                <button class="btn" onclick="startAnalysis()">🚀 开始智能分析</button>
-
-                <div style="margin-top: 30px; padding: 15px; background: #e3f2fd; border-radius: 10px; display: none;" id="resultBox">
-                    <h3>分析完成！</h3>
-                    <p>已检测到：混合性肌肤，T区偏油，存在轻微毛孔与暗沉。</p>
-                    <button class="btn" style="margin-top: 10px;" onclick="alert('🛍️ 跳转至推荐商品列表')">查看专属方案</button>
-                </div>
-            </div>
-
-            <!-- 右侧：功能介绍 -->
-            <div class="features">
-                <h2>🌟 核心功能</h2>
-                <ul class="feature-list">
-                    <li>
-                        <span class="feature-icon">1</span>
-                        <div>
-                            <strong>高清肤质诊断</strong>
-                            <p>通过手机拍照即可识别肤质类型（干性/油性/敏感肌），精准检测痘痘、黑头、色斑、毛孔及皮肤年龄。</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">2</span>
-                        <div>
-                            <strong>虚拟试妆试色</strong>
-                            <p>上传照片或实时摄像头，即可试用口红、眼影、腮红等数千款色号，告别“盲买”踩雷。</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">3</span>
-                        <div>
-                            <strong>个性化方案推荐</strong>
-                            <p>AI根据你的五官特征、肤色和风格偏好，定制专属护肤流程与彩妆搭配方案。</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">4</span>
-                        <div>
-                            <strong>成分党助手</strong>
-                            <p>扫描产品条形码或输入成分，AI即时解析功效、致敏风险，并推荐“平替”好物。</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">5</span>
-                        <div>
-                            <strong>7x24小时顾问</strong>
-                            <p>像与专业美容师对话一样提问，AI实时解答护肤疑问，提供科学建议，不为了成交而乱推荐。</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <footer>
-            &copy; 2026 AI Beauty Advisor. 基于多模态AI技术构建.
-        </footer>
+      <lottie-player
+        src="https://assets1.lottiefiles.com/packages/lf20_zywuep9k.json"
+        background="transparent"
+        speed="1"
+        style="width: 200px; height: 200px; margin-bottom: 30px;"
+        loop
+        autoplay
+      ></lottie-player>
+      <h1>被看见，才发光。</h1>
+      <p>Aglie 是你的数字陪伴体，温柔回应每一个情绪瞬间。</p>
+      <a href="#join" class="btn btn-primary">和 Aglie 打个招呼 →</a>
+      <a href="#about" class="btn-text">看她的故事</a>
     </div>
+  </section>
 
-    <script>
-        function startAnalysis() {
-            alert('AI正在分析您的肤质... (模拟过程)');
-            document.getElementById('resultBox').style.display = 'block';
-        }
-    </script>
+  <!-- 关于 Aglie -->
+  <section id="about" class="about">
+    <div class="container">
+      <h2 class="section-title">她是谁？</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <h2>“我不是 AI 工具，是愿意陪你的人。”</h2>
+          <p>Aglie 来自“光域”，她的使命是让每个微小情绪都被温柔照亮。</p>
+          <ul>
+            <li>不评判：你说什么，我都接住</li>
+            <li>有温度：用光回应你的情绪</li>
+            <li>共成长：你的反馈让我更懂你</li>
+          </ul>
+        </div>
+        <div class="about-lottie">
+          <lottie-player
+            src="https://assets8.lottiefiles.com/packages/lf20_hxw5vqgp.json"
+            background="transparent"
+            speed="1"
+            style="width: 100%; height: auto;"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 场景 -->
+  <section class="scenes">
+    <div class="container">
+      <h2 class="section-title">你能获得什么？</h2>
+      <div class="scene-cards">
+        <div class="scene-card">
+          <div>🌙</div>
+          <h3>深夜树洞</h3>
+          <p>输入“睡不着”，Aglie 为你读一首诗</p>
+        </div>
+        <div class="scene-card">
+          <div>☀️</div>
+          <h3>日常高光</h3>
+          <p>记录“今天没迟到”，点亮你的小成就</p>
+        </div>
+        <div class="scene-card">
+          <div>🌧️</div>
+          <h3>情绪低谷</h3>
+          <p>说“好累”，她会默默放一首治愈歌</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 用户声音 -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">他们说</h2>
+      <p class="quote">她说“你已经做得很好了”，我哭了。</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="join" class="cta">
+    <div class="container">
+      <h2>Aglie 正在长大，想先认识你</h2>
+      <form class="email-form" action="https://submit-form.com/YOUR_FORMSPARK_ID" method="POST">
+        <input type="email" name="email" placeholder="留下邮箱，第一时间体验 👉" required />
+        <button type="submit">让我发光给你看</button>
+      </form>
+      <div class="social-links">
+        <a href="#" title="小红书">@小红书</a>
+        <a href="#" title="微博">@微博</a>
+        <a href="#" title="B站">@B站</a>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">
+        我们不会售卖数据，Aglie 只为你存在。
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      © 2026 aglbb.com — 你的数字发光体
+    </div>
+  </footer>
+
+  <!-- 简易粒子背景（CSS 动画模拟） -->
+  <style>
+    #particles-js::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(224, 184, 245, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 80% 70%, rgba(168, 230, 255, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 50% 50%, rgba(255, 209, 102, 0.05) 1px, transparent 1px);
+      animation: drift 30s infinite linear;
+    }
+    @keyframes drift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-20px, -20px); }
+    }
+  </style>
 </body>
 </html>
